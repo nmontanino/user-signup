@@ -13,5 +13,46 @@ app.config['DEBUG'] = True
 def index():
     return render_template('index.html')
 
+@app.route("/", methods=['POST'])
+def validate():
+    username = request.form['username']
+    pw = request.form['pw']
+    pver = request.form['pver']
+    email = request.form['email']
+
+    username_error = ''
+    pw_error = ''
+    pver_error = ''
+    email_error = ''
+
+    if username == '':
+        username_error = 'Please enter a valid username'
+    elif len(username) < 3 or len(username) > 20 or " " in username:
+        username_error = 'Username must contain between 3 and 20 characters and cannot contain spaces.'
+        
+    if pw == '':
+        pw_error = 'Please enter a valid password'
+    elif len(pw) < 3 or len(pw) > 20 or " " in pw:
+        pw_error = 'Username must contain between 3 and 20 characters and cannot contain spaces.'
+        #pw = '' not needed to clear apparently -- not sure why
+
+    if pw != pver:
+        pver_error = 'Password does not match'
+        
+
+    #email validation here
+
+    if not username_error and not pw_error and not pver_error:
+        return redirect('/welcome?username={}'.format(username))
+    else:
+        return render_template('index.html', username_error = username_error, pw_error = pw_error, pver_error = pver_error, username = username)
+
+@app.route("/welcome")
+def welcome():
+    username = request.args.get('username')
+    return render_template('welcome.html', username = username)
+    
+
+
 app.run()
 
