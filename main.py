@@ -15,7 +15,7 @@ def validate():
     email = request.form['email']
 
     username_error = ''
-    pw_error = ''
+    pw_error = ''  
     pver_error = ''
     email_error = ''
 
@@ -27,12 +27,12 @@ def validate():
     if pw == '':
         pw_error = 'Please enter a valid password'
     elif len(pw) < 3 or len(pw) > 20 or " " in pw:
-        pw_error = 'Username must contain between 3 and 20 characters and cannot contain spaces.'
+        pw_error = 'Password must contain between 3 and 20 characters and cannot contain spaces.'
 
     if pw != pver:
         pver_error = 'Password does not match.'
         
-    if email != '':     #still verifies with multiple at symbols or periods.
+    if email != '':
         if len(email) < 3 or len(email) > 20 or " " in email or "@" not in email or "." not in email:
             email_error = "Please enter a valid email address."
 
